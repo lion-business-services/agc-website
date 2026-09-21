@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /thank-you
+Sitemap: https://americanbuildnj.com/sitemap.xml
