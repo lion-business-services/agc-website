@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BadgeCheck, ClipboardCheck, Hammer, Home, Mail, MapPin, MessagesSquare, Phone, Ruler, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, BadgeCheck, ClipboardCheck, Hammer, Handshake, Home, Mail, MapPin, Phone, ShieldCheck, Star, TrendingUp, Users } from "lucide-react";
 import { business } from "../config/business";
 import { services, primaryServices } from "../config/services";
 import { serviceImages, ownerPhoto } from "../config/images";
@@ -73,18 +73,28 @@ export function ServicesBento({ heading = true }) {
 }
 
 const points = [
-  [Hammer, "High-quality craftsmanship", "Work that holds up to a close look, from framing to the final trim line."],
-  [MessagesSquare, "Clear communication", "You know what is happening, what comes next and who to call."],
-  [Ruler, "Attention to detail", "Layouts, transitions and finishes are planned, not improvised."],
-  [ShieldCheck, `${business.insured} · ${business.license}`, "Registered New Jersey Home Improvement Contractor."],
+  [Hammer, "Quality in every detail", "Work that holds up to a close look, from framing to the final trim line."],
+  [Handshake, "Integrity in everything we do", "Clear pricing, clear communication, and we stand behind our work."],
+  [Users, "Client focused", "Built around your needs. You know what is happening, what comes next and who to call."],
+  [TrendingUp, "Results that last", "Layouts, transitions and finishes are planned, not improvised."],
 ];
+const panelFacts = [business.insured, business.license, "Residential & Commercial", `Proudly Serving ${business.region}`, "Free Estimates", "Experience from everyday homes to million-dollar properties"];
 export function WhyPanel() {
   return (
-    <section id="why" style={{ paddingBottom: "clamp(64px,9vw,120px)" }}><div className="wrap"><Reveal variant="zoom" className="panel"><div className="panel-grid">
-      <div><p className="words"><span>Quality.</span><span>Integrity.</span><span>Results.</span></p>
-        <p className="lede">Three words on our logo, and the standard we hold every project to.</p></div>
-      <ul className="points">{points.map(([I, t, d]) => <Tilt as="li" max={6} key={t} data-stagger><I className="icon" aria-hidden /><h3>{t}</h3><p>{d}</p></Tilt>)}</ul>
-    </div></Reveal></div></section>
+    <section id="why" style={{ paddingBottom: "clamp(64px,9vw,120px)" }}><div className="wrap"><Reveal variant="zoom" className="panel">
+      <img className="panel-mark" src="/brand/agc-logo.webp" alt="" aria-hidden />
+      <div className="panel-grid">
+        <div>
+          <span className="kicker"><i />Why homeowners choose AGC</span>
+          <p className="words"><span>Quality.</span><span>Integrity.</span><span>Results.</span></p>
+          <p className="lede">Three words on our logo, and the standard we hold every project to, whether it is a single bathroom or a whole-home renovation.</p>
+          <div className="cta-row"><EstimateButton className="btn btn-red attn" arrow /><a className="btn btn-line" href={business.phone.href}><Phone className="icon" aria-hidden />{business.phone.display}</a></div>
+        </div>
+        <ul className="points">{points.map(([I, t, d], n) => <Tilt as="li" max={6} key={t} data-stagger><span className="num">0{n + 1}</span><span className="pi"><I className="icon" aria-hidden /></span><h3>{t}</h3><p>{d}</p></Tilt>)}</ul>
+      </div>
+      <div className="ticker" aria-hidden><div className="ticker-track">{[...panelFacts, ...panelFacts].map((f, i) => <span key={i}><Star className="icon" />{f}</span>)}</div></div>
+      <ul className="sr-only">{panelFacts.map((f) => <li key={f}>{f}</li>)}</ul>
+    </Reveal></div></section>
   );
 }
 
