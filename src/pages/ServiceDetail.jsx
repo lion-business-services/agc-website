@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowRight, Check, Image as ImageIcon, Phone, Plus } from "lucide-react";
+import { ArrowRight, Check, Phone, Plus } from "lucide-react";
 import { business } from "../config/business";
 import { getService } from "../config/services";
 import { serviceImages } from "../config/images";
@@ -19,9 +19,9 @@ export default function ServiceDetail() {
   if (!s) return <NotFound />;
   const img = serviceImages[s.image];
   return (<>
-    <PageHero title={s.h1} intro={s.summary} crumbs={[["Services", "/services"], [s.name, `/services/${s.slug}`]]}>
+    <PageHero photo={img} title={s.h1} intro={s.summary} crumbs={[["Services", "/services"], [s.name, `/services/${s.slug}`]]}>
       <div className="cta-row"><EstimateButton type={s.estimateType} arrow />
-        <a className="btn btn-ghost" href={business.phone.href}><Phone className="icon" aria-hidden />Call {business.phone.display}</a></div>
+        <a className="btn btn-line" href={business.phone.href}><Phone className="icon" aria-hidden />Call {business.phone.display}</a></div>
     </PageHero>
     <section className="section" style={{ paddingTop: 24 }}><div className="wrap split">
       <Reveal variant="left">
@@ -34,7 +34,7 @@ export default function ServiceDetail() {
         ))}</div>
       </Reveal>
       <Reveal variant="right" as="aside" className="side">
-        <div className="ph-img">{img?.src ? <img src={img.src} alt={img.alt} /> : <><ImageIcon className="icon" aria-hidden />Photo coming soon</>}</div>
+        <Tilt max={5} className="ph-img" style={{ aspectRatio: "4/3", borderRadius: "var(--r-lg)", overflow: "hidden" }}>{img?.src && <img src={img.src} alt={img.alt} loading="lazy" width="960" height="720" />}</Tilt>
         <Tilt max={5} className="card">
           <h3>{business.insured} · {business.license}</h3>
           <p style={{ margin: "8px 0 18px" }}>Experience you can trust, from everyday homes to million-dollar properties.</p>

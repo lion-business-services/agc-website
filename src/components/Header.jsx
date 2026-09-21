@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { BadgeCheck, ChevronDown, MapPin, Menu, Phone, ShieldCheck, X } from "lucide-react";
 import { business } from "../config/business";
 import { services } from "../config/services";
+import { serviceImages } from "../config/images";
 import { track } from "../lib/analytics";
 import EstimateButton from "./EstimateButton";
 import ServiceIcon from "./ServiceIcon";
@@ -52,7 +53,7 @@ export default function Header() {
                 <NavLink to={to} end={to === "/"} className={({ isActive }) => (isActive ? "on" : "")}>{label}</NavLink>
                 {to === "/services" && (
                   <div className="dd"><ul>
-                    {services.map((s) => <li key={s.slug}><Link to={`/services/${s.slug}`}><ServiceIcon name={s.icon} />{s.name}</Link></li>)}
+                    {services.map((s) => <li key={s.slug}><Link to={`/services/${s.slug}`}>{serviceImages[s.image]?.thumb ? <img className="dd-thumb" src={serviceImages[s.image].thumb} alt="" width="160" height="120" loading="lazy" /> : <ServiceIcon name={s.icon} />}<span>{s.name}</span></Link></li>)}
                   </ul></div>
                 )}
               </li>

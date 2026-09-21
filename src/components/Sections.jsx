@@ -54,15 +54,18 @@ export function ServicesBento({ heading = true }) {
         {primaryServices.map((s) => {
           const img = serviceImages[s.image];
           return (
-            <Tilt as={Link} key={s.slug} data-stagger className={`svc${s.slug === "pergolas" && !img?.src ? " tag" : ""}`} to={`/services/${s.slug}`}>
-              {img?.src && <span className="thumb"><img src={img.src} alt={img.alt} loading="lazy" /></span>}
-              <span className="ico"><ServiceIcon name={s.icon} /></span>
+            <Tilt as={Link} key={s.slug} data-stagger className={`svc${img?.src ? " has-photo" : ""}${s.slug === "pergolas" ? " tag" : ""}`} to={`/services/${s.slug}`}>
+              {img?.src && <span className="thumb"><img src={img.src} alt={img.alt} loading="lazy" width="960" height="720" /></span>}
               <span className="go"><ArrowRight className="icon" aria-hidden /></span>
-              <h3>{s.name}</h3><p>{s.summary}</p>
+              <span className="body">
+                <span className="ico"><ServiceIcon name={s.icon} /></span>
+                <h3>{s.name}</h3><p>{s.summary}</p>
+              </span>
             </Tilt>
           );
         })}
-        <Link data-stagger className="svc wide" to={`/services/${commercial.slug}`} style={{ gridColumn: "1/-1", minHeight: 0, flexDirection: "row", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
+        <Link data-stagger className="svc wide has-photo" to={`/services/${commercial.slug}`} style={{ gridColumn: "1/-1", minHeight: 0, flexDirection: "row", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
+          <img className="wide-photo" src={serviceImages.commercial.src} alt="" aria-hidden loading="lazy" />
           <span className="ico"><ServiceIcon name="commercial" /></span>
           <span style={{ flex: 1, minWidth: 220 }}><h3 style={{ padding: 0, margin: 0 }}>{commercial.name}</h3><p>{commercial.summary}</p></span>
           <span className="btn btn-line" style={{ minHeight: 46 }}>Commercial services</span>
@@ -208,9 +211,11 @@ export function OwnerSpotlight() {
   );
 }
 
-export function PageHero({ title, intro, crumbs = [], children }) {
+export function PageHero({ title, intro, crumbs = [], children, photo }) {
   return (
-    <section className="page-hero"><div className="wrap">
+    <section className={`page-hero${photo ? " has-photo" : ""}`}>
+      {photo && <div className="page-hero-photo" aria-hidden><img src={photo.hero || photo.src} alt="" fetchPriority="high" width="1920" height="1080" /></div>}
+      <div className="wrap">
       <nav aria-label="Breadcrumb"><ol className="crumbs">
         <li><Link to="/">Home</Link></li>
         {crumbs.map(([l, to], i) => <li key={to}>{i === crumbs.length - 1 ? <span aria-current="page">{l}</span> : <Link to={to}>{l}</Link>}</li>)}
