@@ -13,7 +13,6 @@ const base = business.url;
 const R = business.region;
 const pages = [
   { path: "/services", title: `Remodeling & Construction Services in ${R}`, desc: `Kitchen and bathroom remodeling, additions, decks, pergolas, windows, doors, flooring and commercial construction in ${R}. ${business.insured}. ${business.license}.` },
-  { path: "/our-work", title: `Our Work: Remodeling Projects in ${R}`, desc: `Kitchens, bathrooms, decks, pergolas, additions and whole-home remodels completed by ${business.shortName} in ${R}.` },
   { path: "/about", title: `About ${business.shortName}`, desc: `${business.name} is a fully insured ${R} contractor (${business.license}) for residential remodeling and commercial construction.` },
   { path: "/reviews", title: "Customer Reviews", desc: `Google reviews from ${R} homeowners who have worked with ${business.shortName}.` },
   { path: "/contact", title: `Contact & ${R} Service Area`, desc: `Call ${business.phone.display} or email ${business.email.display}. ${business.name} serves homeowners and businesses throughout ${R}, New Jersey.` },

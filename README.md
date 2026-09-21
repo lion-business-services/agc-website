@@ -68,7 +68,7 @@ Note: `/api/reviews` runs on Vercel, not under `npm run dev`. Locally you will s
 | ---------------------------------------- | ----------------------------- |
 | Phone, email, license, social links      | `src/config/business.js`      |
 | Service pages: text, FAQs, SEO titles    | `src/config/services.js`      |
-| **Photos** (services, gallery, owner)    | `src/config/images.js`        |
+| **Photos** (service cards, owner)        | `src/config/images.js`        |
 | Form choices (budgets, timelines, etc.)  | `src/config/estimate.js`      |
 | Menu tabs                                | `src/components/Header.jsx` → `nav` |
 | Daniel's bio                             | `src/pages/About.jsx` → `ownerBio` |
@@ -79,12 +79,12 @@ Note: `/api/reviews` runs on Vercel, not under `npm run dev`. Locally you will s
 2. In `src/config/images.js` set `src: "/projects/your-file.jpg"` and write a short `alt` description.
 3. Save, commit, push. Placeholders disappear on their own.
 
-Stock photos are fine for the service cards. The **Our Work** gallery should only ever show real AGC projects.
+Stock photos are fine for the service cards.
 
 ## Still needed before launch
 - [ ] Domain DNS pointed at Vercel
 - [ ] info@americanbuildnj.com mailbox live, then **activate FormSubmit** with a test submission
-- [ ] Real project photos + Daniel's photo and bio
+- [ ] Service card photos + Daniel's bio (his photo is already in)
 - [ ] Google Business Profile + the two Google env vars (reviews)
 - [ ] Facebook / Instagram (and any other) links in `business.js`
 - [ ] Google Maps embed link + Google review link in `business.js`

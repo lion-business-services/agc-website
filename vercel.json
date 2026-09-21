@@ -3,7 +3,8 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/service-area", "destination": "/contact", "permanent": true },
-    { "source": "/book", "destination": "/request-estimate", "permanent": true }
+    { "source": "/book", "destination": "/request-estimate", "permanent": true },
+    { "source": "/our-work", "destination": "/services", "permanent": true }
   ],
   "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
 }

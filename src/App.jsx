@@ -7,7 +7,6 @@ import StickyBar from "./components/StickyBar";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
-import OurWork from "./pages/OurWork";
 import About from "./pages/About";
 import ReviewsPage from "./pages/ReviewsPage";
 import Contact from "./pages/Contact";
@@ -34,7 +33,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
-          <Route path="/our-work" element={<OurWork />} />
+          <Route path="/our-work" element={<Navigate to="/services" replace />} />
           <Route path="/about" element={<About />} />
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/service-area" element={<Navigate to="/contact" replace />} />

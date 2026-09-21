@@ -153,11 +153,11 @@ Paste the full profile addresses between the quotes in the **social** block (fac
 
 ### Photos: src/config/images.js
 
-1. Put image files in **public/projects/** (Daniel's portrait goes in **public/team/**). Landscape JPG or WebP, about 1600 px wide, under 500 KB each if possible.
+Daniel's portrait is already in place (public/team/daniel-bettran.jpg). Service-card photos are optional:
+
+1. Put image files in **public/projects/**. Landscape JPG or WebP, about 1600 px wide, under 500 KB each if possible.
 2. In images.js set **src** to the path, for example "/projects/kitchen-01.jpg", and write a short **alt** description.
 3. The placeholder tiles disappear on their own.
-
-> **IMPORTANT:** The "Real projects. Real results." gallery must only show Daniel's real work. Stock photos are acceptable on the service cards only.
 
 
 ### Daniel's bio: src/pages/About.jsx
@@ -204,7 +204,7 @@ Vercel redeploys automatically in about a minute. If Daysi sends an updated zip,
 | Phone, email, license, social links, map, review link | src/config/business.js |
 | Where estimate emails go (leadEmail, leadCc) | src/config/business.js |
 | Service pages: text, FAQs, page titles | src/config/services.js |
-| Photos (services, gallery, owner) | src/config/images.js |
+| Photos (service cards, owner) | src/config/images.js |
 | Form choices: project types, budgets, time windows | src/config/estimate.js |
 | Menu tabs | src/components/Header.jsx (nav) |
 | Daniel's bio | src/pages/About.jsx (ownerBio) |
@@ -237,6 +237,6 @@ Vercel redeploys automatically in about a minute. If Daysi sends an updated zip,
 - [ ] Domain connected, MX records untouched, HTTPS valid
 - [ ] Final test submitted from americanbuildnj.com
 - [ ] Sitemap submitted in Google Search Console
-- [ ] Told Daysi what is still missing: social links, photos, bio, Google Business Profile items
+- [ ] Told Daysi what is still missing: social links, service photos, bio, Google Business Profile items
 
 Questions about the code or changes: send them to Daysi and she will get an updated project file.
