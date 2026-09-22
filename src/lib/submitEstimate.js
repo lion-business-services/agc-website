@@ -10,7 +10,6 @@ export function submitEstimate(v, photos) {
     ticket,
     subject: `[${ticket}] Estimate request${wantsAppt ? " + APPOINTMENT" : ""}: ${v.projectType} — ${v.firstName} ${v.lastName} (${v.city})`,
     replyTo: v.email, honey: v.company_website,
-    autoresponse: `Thank you for contacting ${business.name}. Your estimate ticket number is ${ticket}. Please keep it for your records and mention it if you call or email us. We received your request for ${v.projectType}.${wantsAppt ? " Your requested appointment time is NOT confirmed yet. We will review it and send you a calendar invitation or contact you to confirm." : " A member of our team will contact you about the next step."} Questions? Call ${business.phone.display}.`,
     rows: [
       ["TICKET NUMBER", ticket],
       ["Customer", `${v.firstName} ${v.lastName}`], ["Phone", v.phone], ["email", v.email], ["Preferred contact", v.preferredContact],

@@ -30,12 +30,12 @@ git push -u origin main
 - After activating, FormSubmit gives you a random string to use instead of the email address in the form, which hides the address from spam bots. To use it, set `leadEmail` to that string.
 - Photos are shrunk in the visitor's browser (a 6 MB phone photo becomes about 300 KB) because FormSubmit allows 10 MB of attachments per email. Up to 6 current + 6 inspiration photos.
 - Spam: a hidden honeypot field is on. If spam gets through, open `src/lib/submitEstimate.js` and change `_captcha` from `"false"` to `"true"` to add FormSubmit's captcha step.
-- After sending, visitors land on `/thank-you`.
+- After sending, the customer stays on the site and sees the confirmation with their ticket number inside the form. FormSubmit's own page never shows (the post goes to a hidden frame).
 
 ## Appointment requests (inside the Free Estimate form)
 There is no separate booking page. Step 7 of the estimate form lets the customer request a visit date and time window. Nothing is confirmed until Daniel accepts it.
 
-1. The customer gets an automatic email right away: request received, appointment time NOT confirmed yet.
+1. The customer sees an on-site confirmation with a ticket number and a note that the appointment time is NOT confirmed yet.
 2. AGC (info@ + Daniel) gets the estimate email. If a date was requested, the subject says **+ APPOINTMENT REQUEST** and the bottom of the email has an **ACCEPT: add to Google Calendar** link.
 3. **To accept:** Daniel clicks that link. His Google Workspace calendar opens with the visit pre-filled (customer, phone, address, project, requested window) and the customer added as a guest. He sets the exact time, clicks **Save → Send invitation**. Google emails the customer the invite, which is their confirmation, and handles reminders.
 4. **To decline or propose another time:** reply to the email; the reply goes straight to the customer.

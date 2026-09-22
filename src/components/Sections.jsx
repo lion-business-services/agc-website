@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BadgeCheck, ClipboardCheck, Hammer, Handshake, Home, Mail, MapPin, Phone, ShieldCheck, Star, TrendingUp, Users } from "lucide-react";
-import { business, reviewLink } from "../config/business";
+import { business } from "../config/business";
 import { services, primaryServices } from "../config/services";
 import { serviceImages, ownerPhoto } from "../config/images";
 import { useParallax } from "../lib/motion";
@@ -141,7 +141,6 @@ export function Reviews() {
                 <div className="who">{r.photo ? <img className="av" src={r.photo} alt="" referrerPolicy="no-referrer" /> : <span className="av" />}<span>{r.author}<small>{r.when} · Google</small></span></div></div>
             ))}
           </Reveal>
-          {reviewLink() && <p style={{ marginTop: 28 }}><a className="btn btn-ghost" href={reviewLink()} target="_blank" rel="noopener noreferrer">Leave us a Google review</a></p>}
           {data.url && <p style={{ marginTop: 20 }}><a className="link" href={data.url} target="_blank" rel="noopener noreferrer">Read all reviews on Google <ArrowRight className="icon" aria-hidden /></a></p>}
         </>
       ) : PREVIEW ? (
@@ -154,8 +153,7 @@ export function Reviews() {
       ) : (
         <Reveal className="reviews"><Stars /><div><h3>Customer reviews are on the way.</h3>
           <p style={{ marginTop: 8, maxWidth: "60ch" }}>We only publish real reviews from real customers. If we have worked on your home, we would be grateful if you shared your experience on Google.</p>
-          {business.social.google && <p style={{ marginTop: 8 }}><a className="link" href={business.social.google} target="_blank" rel="noopener noreferrer">See us on Google <ArrowRight className="icon" aria-hidden /></a></p>}
-          {reviewLink() && <a className="btn btn-ghost" style={{ marginTop: 16 }} href={reviewLink()} target="_blank" rel="noopener noreferrer">Leave us a Google review</a>}</div></Reveal>
+          {business.social.google && <p style={{ marginTop: 8 }}><a className="link" href={business.social.google} target="_blank" rel="noopener noreferrer">See us on Google <ArrowRight className="icon" aria-hidden /></a></p>} </div></Reveal>
       )}
     </div></section>
   );

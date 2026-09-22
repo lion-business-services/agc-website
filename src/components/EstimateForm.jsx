@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  ArrowLeft, ArrowRight, Camera, Sparkles, Loader2, Phone, MessageSquare, Mail, CookingPot, Bath, HousePlus, Fence, Tent,
+  ArrowLeft, ArrowRight, Camera, CheckCircle2, Copy, Check, Sparkles, Loader2, Phone, MessageSquare, Mail, CookingPot, Bath, HousePlus, Fence, Tent,
   AppWindow, DoorOpen, ShowerHead, Grid2x2, PaintRoller, Building2, CircleEllipsis,
 } from "lucide-react";
 import { projectTypes, budgetRanges, timelines, contactMethods, timeWindows, uploadRules } from "../config/estimate";
@@ -110,6 +111,8 @@ export default function EstimateForm({ initialType = "" }) {
   const [busy, setBusy] = useState("");
   const [fileMsg, setFileMsg] = useState("");
   const [sending, setSending] = useState(false);
+  const [done, setDone] = useState(null); // { ticket, appt } after a successful send
+  const [copied, setCopied] = useState(false);
   const heading = useRef(null);
   const body = useRef(null);
   const started = useRef(false);
@@ -152,8 +155,30 @@ export default function EstimateForm({ initialType = "" }) {
     if (step < LAST) { track("estimate_step_completed", { step: step + 1 }); setStep(step + 1); return; }
     setSending(true);
     track("estimate_submitted", { project_type: v.projectType });
-    const demo = submitEstimate(v, [...current.map((p) => ({ file: p.file, kind: "current" })), ...inspiration.map((p) => ({ file: p.file, kind: "inspiration" }))]);
-    if (demo) { setSending(false); setStep(0); setV(blank); setCurrent([]); setInspiration([]); }
+    submitEstimate(v, [...current.map((p) => ({ file: p.file, kind: "current" })), ...inspiration.map((p) => ({ file: p.file, kind: "inspiration" }))])
+      .then((res) => { setDone({ ticket: res.ticket, appt: Boolean(v.appointmentDate || v.alternativeAppointment), name: v.firstName, email: v.email }); setSending(false); });
+  }
+
+  if (done) {
+    const copy = () => navigator.clipboard?.writeText(done.ticket).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); });
+    return (
+      <div className="est-body success" role="status" aria-live="polite">
+        <div className="ok"><CheckCircle2 className="icon" aria-hidden /></div>
+        <h3 tabIndex={-1} ref={heading}>Thank you{done.name ? `, ${done.name}` : ""}. Your request is in.</h3>
+        <p className="sub">A member of the {business.shortName} team will review your project and contact you regarding the next step{done.appt ? ", including your requested appointment time" : ""}.</p>
+        <div className="ticket"><small>Your estimate ticket number</small><b>{done.ticket}</b>
+          <button type="button" className="btn btn-ghost" onClick={copy} style={{ minHeight: 44, padding: "0 18px", fontSize: ".92rem" }}>{copied ? <><Check className="icon" aria-hidden />Copied</> : <><Copy className="icon" aria-hidden />Copy number</>}</button>
+          <span>Save this number and mention it if you call or email us about your project.</span></div>
+        {done.appt && <p className="note" style={{ marginTop: 20 }}>Your appointment time is a request, not yet confirmed. We will send a calendar invitation once it is accepted, or contact you to arrange another time.</p>}
+        <ul className="next-steps">
+          <li><b>1</b><span>We review your details{done.appt ? " and requested time" : ""}.</span></li>
+          <li><b>2</b><span>We contact you by your preferred method to talk through the project.</span></li>
+          <li><b>3</b><span>You receive a clear, free estimate.</span></li>
+        </ul>
+        <p style={{ textAlign: "center", marginTop: 26 }}>Need us sooner? Call <a href={business.phone.href} style={{ font: "800 1.25rem var(--display)", color: "var(--ink)" }}>{business.phone.display}</a></p>
+        <div className="cta-row" style={{ justifyContent: "center", marginTop: 22 }}><Link className="btn btn-ghost" to="/" onClick={() => document.querySelector("dialog.est[open]")?.close()}>Back to home</Link></div>
+      </div>
+    );
   }
 
   const noPhotos = !current.length && !inspiration.length;

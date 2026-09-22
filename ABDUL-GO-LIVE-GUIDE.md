@@ -74,7 +74,7 @@ git push -u origin main
 FormSubmit will not deliver anything until the receiving address confirms it once.
 
 1. On the **Vercel test address**, fill out the Free Estimate form completely. Use your own name, phone and email as the customer. Attach one photo. **In step 7 of the form, pick an appointment date and a time window** (you need this for Step 6).
-2. Submit. You should land on the Thank You page.
+2. Submit. You stay on the site and see a confirmation with a ticket number (FormSubmit's own page never appears).
 3. Open the inbox of **info@americanbuildnj.com**. Find the email from FormSubmit titled **Activate Form** and click the activation button. Check spam if you do not see it.
 4. Go back to the site and submit a **second** test the same way. This one is the real test.
 
@@ -86,10 +86,7 @@ FormSubmit will not deliver anything until the receiving address confirms it onc
 - [ ] The subject starts with: New estimate request + APPOINTMENT REQUEST
 - [ ] The email shows every field in a table, and the photo is attached.
 - [ ] Near the bottom there is a row **ACCEPT: add to Google Calendar** with a long link.
-- [ ] The test customer email address (yours) received the automatic reply that says the appointment is NOT confirmed yet.
 - [ ] Pressing Reply on the email addresses the reply to the customer, not to FormSubmit.
-
-> **Note:** If the automatic reply to the customer did not arrive, tell Daysi. It is a FormSubmit feature (_autoresponse) and everything else still works without it.
 
 
 ## Step 6. IMPORTANT: appointments must reach Daniel's Google Calendar
@@ -99,7 +96,7 @@ Daysi's reminder: **when a customer chooses an estimate date on the website, it 
 
 ### How it works
 
-- The customer picks a preferred date and time window in step 7 of the estimate form. That is a **request**. Daniel asked that nothing be confirmed until he accepts it.
+- The customer picks a preferred date and time window in step 7 of the estimate form. That is a **request**. The confirmation screen tells them so. Daniel asked that nothing be confirmed until he accepts it.
 - The request arrives by email with the **ACCEPT: add to Google Calendar** link.
 - When Daniel taps that link, Google Calendar opens with the appointment already filled in: title, date, a one-hour time inside the requested window, the project address as the location, the customer's phone and project notes, and **the customer already added as a guest**.
 - Daniel adjusts the exact time if needed and taps **Save**. Google asks whether to send invitations. He chooses **Send**.
@@ -233,7 +230,6 @@ Vercel redeploys automatically in about a minute. If Daysi sends an updated zip,
 - [ ] Code pushed to GitHub
 - [ ] Deployed on Vercel test address and reviewed on phone and computer
 - [ ] FormSubmit activated; second test delivered to BOTH inboxes with photo
-- [ ] Customer automatic reply received
 - [ ] Calendar ACCEPT link tested on Daniel's own phone, under the right Google account
 - [ ] Daniel shown the 5-step routine
 - [ ] Domain connected, MX records untouched, HTTPS valid

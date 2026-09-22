@@ -26,7 +26,6 @@ export default function ThankYou() {
             {sent.rows.map(([k, val]) => <tr key={k} style={{ borderTop: "1px solid var(--line)" }}><td style={{ padding: "8px 12px 8px 0", fontWeight: 600, color: "var(--ink)", verticalAlign: "top", whiteSpace: "nowrap" }}>{k}</td><td style={{ padding: "8px 0", wordBreak: "break-word" }}>{String(val).startsWith("https://") ? <a href={val} target="_blank" rel="noopener noreferrer" style={{ color: "var(--red)", fontWeight: 700, textDecoration: "underline" }}>Open in Google Calendar (try it)</a> : val}</td></tr>)}
             {sent.photos > 0 && <tr style={{ borderTop: "1px solid var(--line)" }}><td style={{ padding: "8px 12px 8px 0", fontWeight: 600, color: "var(--ink)" }}>Attachments</td><td>{sent.photos} photo{sent.photos > 1 ? "s" : ""}</td></tr>}
           </tbody></table>
-          {sent.autoresponse && <><p style={{ marginTop: 24 }}><b>And the customer automatically receives this email:</b></p><p className="note" style={{ marginTop: 10, marginBottom: 0 }}>{sent.autoresponse}</p></>}
         </div>
       )}
     </div></div></section>
