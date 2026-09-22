@@ -54,6 +54,16 @@ export const business = {
    * Google Maps → AGC listing → Share → Embed a map → copy only the src="..." link.
    */
   mapEmbedUrl: "https://www.google.com/maps?q=South+Jersey,+New+Jersey&z=9&output=embed",
+  /**
+   * CUSTOMER CONFIRMATION EMAIL (sent by /api/confirm through Resend after every estimate request).
+   * `from` must be on a domain verified in Resend. Customer replies go to replyTo (the main inbox).
+   */
+  confirmationEmail: {
+    from: "American General Contractor <estimates@americanbuildnj.com>",
+    replyTo: "info@americanbuildnj.com",
+    responseTime: "within 1–2 business days",
+    spanish: true, // adds a short Spanish summary at the bottom of the email
+  },
   developer: {
     name: "VYNTEX, LLC",
     location: "NJ",

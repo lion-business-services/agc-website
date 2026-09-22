@@ -130,6 +130,23 @@ Daysi's reminder: **when a customer chooses an estimate date on the website, it 
 > **Note:** Optional later upgrade: if Daniel wants every request to land on his calendar automatically as a TENTATIVE event before he accepts, that can be done with a Zapier automation (Gmail: new email with subject containing APPOINTMENT REQUEST > Google Calendar: create event). Not needed for launch. Ask Daysi first.
 
 
+## Step 6B. Customer confirmation email (Resend)
+
+After every estimate request the customer automatically receives a branded email with their **ticket number**, a summary, the "not confirmed yet" appointment note, next steps, a Call button and a short Spanish summary. Replies go to info@americanbuildnj.com. The business copy still arrives through FormSubmit as before.
+
+1. Create a free account at **resend.com** (3,000 emails a month, 100 a day).
+2. **Domains > Add domain > americanbuildnj.com.** Add the DNS records Resend shows (an MX and TXT on the **send** subdomain and a DKIM TXT **resend._domainkey**) at the domain's DNS provider, exactly as shown.
+3. If the domain has no DMARC record, add one: TXT, host **_dmarc**, value **v=DMARC1; p=none; rua=mailto:info@americanbuildnj.com**
+4. Click **Verify** in Resend and wait for Verified.
+5. **API Keys > Create** with **Sending access** only. Copy the key.
+6. Vercel > Settings > Environment Variables > add **RESEND_API_KEY** > Redeploy.
+7. Submit a test estimate using your own email. The confirmation should arrive within a minute, and the site's thank-you screen should say a confirmation is on its way.
+
+> **IMPORTANT:** Resend's records go on subdomains (send, resend._domainkey). They do NOT replace the domain's main MX records, so the info@ mailbox keeps working. Do not delete any existing MX records.
+
+> **Note:** Until RESEND_API_KEY is set, everything else still works; the site simply does not mention an email. Wording, response time ("within 1-2 business days") and the Spanish summary are in src/config/business.js > confirmationEmail.
+
+
 ## Step 7. Connect the real domain
 
 1. Vercel > the project > **Settings > Domains**. Add **americanbuildnj.com** and **www.americanbuildnj.com**.
@@ -214,6 +231,7 @@ Vercel redeploys automatically in about a minute. If Daysi sends an updated zip,
 
 | Problem | Fix |
 |---|---|
+| Customer did not get the confirmation email | Check Resend > Domains shows Verified and RESEND_API_KEY is in Vercel (then redeploy). Check the customer spam folder. Resend > Logs shows every attempt. |
 | No email after submitting the form | The Activate Form email was not clicked, or it went to spam. Check info@ inbox and spam, activate, test again. |
 | Email arrives at info@ but not Daniel's Gmail | Check Gmail spam and mark Not spam. Confirm leadCc in business.js is spelled correctly. |
 | Photos missing from the email | Total attachments are limited to 10 MB. The site shrinks photos automatically; very old phones may fail. Ask the customer to email them. |
@@ -230,6 +248,7 @@ Vercel redeploys automatically in about a minute. If Daysi sends an updated zip,
 - [ ] Code pushed to GitHub
 - [ ] Deployed on Vercel test address and reviewed on phone and computer
 - [ ] FormSubmit activated; second test delivered to BOTH inboxes with photo
+- [ ] Resend domain verified, RESEND_API_KEY in Vercel, customer confirmation email received
 - [ ] Calendar ACCEPT link tested on Daniel's own phone, under the right Google account
 - [ ] Daniel shown the 5-step routine
 - [ ] Domain connected, MX records untouched, HTTPS valid

@@ -1,12 +1,13 @@
 import { business } from "../config/business";
 import { postToFormSubmit, makeTicket } from "./formsubmit";
 import { calendarLink } from "./calendarLink";
+import { sendConfirmation } from "./confirm";
 
 export function submitEstimate(v, photos) {
   const wantsAppt = Boolean(v.appointmentDate || v.alternativeAppointment);
   const ticket = makeTicket();
   const link = calendarLink({ ...v, projectType: `${v.projectType} · ${ticket}` });
-  return postToFormSubmit({
+  const toBusiness = postToFormSubmit({
     ticket,
     subject: `[${ticket}] Estimate request${wantsAppt ? " + APPOINTMENT" : ""}: ${v.projectType} — ${v.firstName} ${v.lastName} (${v.city})`,
     replyTo: v.email, honey: v.company_website,
@@ -24,4 +25,6 @@ export function submitEstimate(v, photos) {
     ],
     photos: photos.map(({ file, kind }, n) => ({ file, label: `${kind === "current" ? "Current photo" : "Inspiration photo"} ${n + 1}` })),
   });
+  const toCustomer = sendConfirmation(v, ticket);
+  return Promise.all([toBusiness, toCustomer]).then(([payload, emailed]) => ({ ...payload, ticket, emailed }));
 }

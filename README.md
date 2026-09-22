@@ -53,6 +53,23 @@ Paste the full profile links into `social` in `src/config/business.js` (Facebook
 - After launch: add the site in **Google Search Console**, verify the domain, and submit `https://americanbuildnj.com/sitemap.xml`. Do the same in **Bing Webmaster Tools**.
 - The single biggest local-SEO factor is a verified, complete **Google Business Profile** (categories, service area, photos, hours) with the website link pointing here. That also powers the map pin and the reviews.
 
+## Customer confirmation email (Resend)
+After every estimate request the customer automatically receives a branded email: "Thank you, Maria. We have your estimate request", their **ticket number**, a request summary, the "not confirmed yet" note if they asked for an appointment, what happens next, a Call button, and a short Spanish summary. Replies go to info@americanbuildnj.com.
+
+How it works: the business copy still goes through FormSubmit. At the same moment the site calls `/api/confirm` (a Vercel function) which sends the customer email through **Resend**. The API key never reaches the browser. The site only says "a confirmation is on its way" if Resend actually accepted the email.
+
+Setup (about 15 minutes, once):
+1. Create a free account at resend.com (3,000 emails/month, 100/day; plenty for estimate requests).
+2. **Domains → Add domain → americanbuildnj.com.** Resend shows 3–4 DNS records (an MX and a TXT on the `send` subdomain, and a DKIM TXT `resend._domainkey`). Add them at the domain's DNS provider exactly as shown. They live on subdomains, so they do **not** touch the existing MX records for the info@ mailbox.
+3. Also add a DMARC record if the domain has none: TXT, host `_dmarc`, value `v=DMARC1; p=none; rua=mailto:info@americanbuildnj.com`. This helps the emails land in the inbox, not spam.
+4. Click **Verify** in Resend and wait until it shows Verified.
+5. **API Keys → Create** with **Sending access** only. Copy it.
+6. Vercel → Project → Settings → Environment Variables → add `RESEND_API_KEY` = the key → **Redeploy**.
+7. Submit a test estimate with your own email. You should get the confirmation within a minute.
+
+Change the wording, response time ("within 1–2 business days"), sender name or the Spanish summary in `src/config/business.js` → `confirmationEmail`, and the design in `api/_lib/confirmationEmail.js`.
+Abuse protection: the email only contains fixed wording plus validated fields (first name, project type from the list, city, contact method, date), checks the ticket format and the site origin, and limits sends per visitor and per address.
+
 ## Estimate ticket numbers
 Every estimate request gets a ticket like **AGC-260921-K7M2** (AGC, date as YYMMDD, 4 random letters/numbers). It appears in the email subject in brackets, as the first row of the email, in the customer's automatic reply, on the thank-you page, and in the calendar event title. Search the info@ inbox for the ticket to pull up the case. Change the prefix in `src/lib/formsubmit.js` (`makeTicket`).
 

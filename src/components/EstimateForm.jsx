@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowLeft, ArrowRight, Camera, CheckCircle2, Copy, Check, Sparkles, Loader2, Phone, MessageSquare, Mail, CookingPot, Bath, HousePlus, Fence, Tent,
+  ArrowLeft, ArrowRight, Camera, CheckCircle2, Copy, Check, Mail as MailIcon, X, Sparkles, Loader2, Phone, MessageSquare, Mail, CookingPot, Bath, HousePlus, Fence, Tent,
   AppWindow, DoorOpen, ShowerHead, Grid2x2, PaintRoller, Building2, CircleEllipsis,
 } from "lucide-react";
 import { projectTypes, budgetRanges, timelines, contactMethods, timeWindows, uploadRules } from "../config/estimate";
@@ -9,6 +9,7 @@ import { business } from "../config/business";
 import { compressImage } from "../lib/compress";
 import { submitEstimate } from "../lib/submitEstimate";
 import { track } from "../lib/analytics";
+import { PREVIEW } from "../lib/preview";
 
 const STEPS = ["Project type", "Project details", "Location", "Budget and timeline", "Photos", "Your contact info", "Appointment request", "Review and send"];
 const LAST = STEPS.length - 1;
@@ -46,6 +47,17 @@ function validate(step, v) {
   }
   if (step === 7 && !v.consent) e.consent = "Please confirm we may contact you about your request";
   return e;
+}
+
+/** Demo only: shows the customer confirmation email exactly as it will look in an inbox. */
+function EmailPreview({ onClose }) {
+  const e = window.__agcLastEmail;
+  return (
+    <div className="email-preview" role="dialog" aria-modal="true" aria-label="Confirmation email preview">
+      <div className="email-preview-bar"><span><b>Subject:</b> {e.subject}</span><button type="button" className="est-x" aria-label="Close preview" onClick={onClose}><X className="icon" aria-hidden /></button></div>
+      <iframe title="Confirmation email" srcDoc={e.html} />
+    </div>
+  );
 }
 
 function Err({ msg }) {
@@ -113,6 +125,7 @@ export default function EstimateForm({ initialType = "" }) {
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(null); // { ticket, appt } after a successful send
   const [copied, setCopied] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
   const heading = useRef(null);
   const body = useRef(null);
   const started = useRef(false);
@@ -156,7 +169,7 @@ export default function EstimateForm({ initialType = "" }) {
     setSending(true);
     track("estimate_submitted", { project_type: v.projectType });
     submitEstimate(v, [...current.map((p) => ({ file: p.file, kind: "current" })), ...inspiration.map((p) => ({ file: p.file, kind: "inspiration" }))])
-      .then((res) => { setDone({ ticket: res.ticket, appt: Boolean(v.appointmentDate || v.alternativeAppointment), name: v.firstName, email: v.email }); setSending(false); });
+      .then((res) => { setDone({ ticket: res.ticket, emailed: res.emailed, appt: Boolean(v.appointmentDate || v.alternativeAppointment), name: v.firstName, email: v.email }); setSending(false); });
   }
 
   if (done) {
@@ -169,6 +182,9 @@ export default function EstimateForm({ initialType = "" }) {
         <div className="ticket"><small>Your estimate ticket number</small><b>{done.ticket}</b>
           <button type="button" className="btn btn-ghost" onClick={copy} style={{ minHeight: 44, padding: "0 18px", fontSize: ".92rem" }}>{copied ? <><Check className="icon" aria-hidden />Copied</> : <><Copy className="icon" aria-hidden />Copy number</>}</button>
           <span>Save this number and mention it if you call or email us about your project.</span></div>
+        {done.emailed && <p className="emailed"><MailIcon className="icon" aria-hidden /><span>A confirmation with your ticket number is on its way to <b>{done.email}</b>.
+          {PREVIEW && window.__agcLastEmail && <> <button type="button" className="linkbtn" onClick={() => setShowEmail(true)}>Preview the email</button></>}</span></p>}
+        {showEmail && <EmailPreview onClose={() => setShowEmail(false)} />}
         {done.appt && <p className="note" style={{ marginTop: 20 }}>Your appointment time is a request, not yet confirmed. We will send a calendar invitation once it is accepted, or contact you to arrange another time.</p>}
         <ul className="next-steps">
           <li><b>1</b><span>We review your details{done.appt ? " and requested time" : ""}.</span></li>
