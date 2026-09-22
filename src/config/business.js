@@ -33,13 +33,20 @@ export const business = {
   insured: "Fully Insured",
   /** SOCIAL MEDIA: paste the full profile links. Empty ones stay hidden. */
   social: {
-    facebook: "",
-    instagram: "",
+    facebook: "https://www.facebook.com/americangeneralcontractor",
+    instagram: "https://www.instagram.com/americangeneralcontractor",
     tiktok: "",
     youtube: "",
-    google: "", // Google Business Profile link (the "share" link from Google Maps)
+    google: "https://share.google/IajItNz2ZzSkhBn3W", // Google Business Profile share link
   },
-  /** Link customers use to write a Google review (Google Business Profile → "Ask for reviews"). */
+  /**
+   * GOOGLE PLACE ID — unlocks the "Write a review" link and live reviews.
+   * Open the share link above in a browser, then get the Place ID from Google's Place ID Finder
+   * (developers.google.com/maps/documentation/places/web-service/place-id) by searching the business name.
+   * It looks like "ChIJ...". Also add it in Vercel as GOOGLE_PLACE_ID for the live reviews function.
+   */
+  googlePlaceId: "",
+  /** Direct "leave a review" link. Leave empty: it is built from googlePlaceId, or falls back to the Google share link. */
   googleReviewUrl: "",
   /**
    * GOOGLE MAP shown on the Service Area and Contact pages.
@@ -62,3 +69,8 @@ export const trustPoints = [
   "Residential & Commercial",
   `Serving ${business.region}`,
 ];
+
+/** Best available "leave us a Google review" link. */
+export const reviewLink = () =>
+  business.googleReviewUrl ||
+  (business.googlePlaceId ? `https://search.google.com/local/writereview?placeid=${business.googlePlaceId}` : business.social.google);

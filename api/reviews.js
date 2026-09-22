@@ -9,7 +9,7 @@
  */
 export default async function handler(req, res) {
   const key = process.env.GOOGLE_PLACES_API_KEY;
-  const placeId = process.env.GOOGLE_PLACE_ID;
+  const placeId = process.env.GOOGLE_PLACE_ID; // set in Vercel; same value as googlePlaceId in src/config/business.js
   if (!key || !placeId) return res.status(200).json({ reviews: [] });
 
   try {

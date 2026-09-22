@@ -81,6 +81,7 @@ FormSubmit will not deliver anything until the receiving address confirms it onc
 **The second test passes if all of these are true:**
 
 - [ ] The email arrives at **info@americanbuildnj.com**.
+- [ ] The subject starts with a ticket number in brackets, e.g. [AGC-260921-K7M2], and the same number is the first row of the email and appears on the thank-you page.
 - [ ] A copy arrives at **daniel.bettran@gmail.com**.
 - [ ] The subject starts with: New estimate request + APPOINTMENT REQUEST
 - [ ] The email shows every field in a table, and the photo is attached.
@@ -148,7 +149,7 @@ Each of these is a small edit in one file, then commit and push (Step 10). None 
 
 ### Social media links: src/config/business.js
 
-Paste the full profile addresses between the quotes in the **social** block (facebook, instagram, tiktok, youtube, google). Icons appear automatically in the top bar, the footer and the Contact Us page. Empty ones stay hidden.
+Facebook, Instagram and the Google Business Profile link are already filled in. Add TikTok or YouTube in the **social** block if Daniel opens them. Icons appear automatically in the top bar, the footer and the Contact Us page.
 
 
 ### Photos: src/config/images.js
@@ -170,8 +171,9 @@ Add his approved paragraphs to the **ownerBio** list near the top of the file. D
 1. Make sure **American General Contractor LLC** has a verified Google Business Profile with the website set to https://americanbuildnj.com. This is the single biggest factor for showing up in local Google searches.
 2. **Map:** Google Maps > the AGC listing > Share > Embed a map > copy only the link inside src="..." and paste it into **mapEmbedUrl** in business.js.
 3. **Review button:** Business Profile > Ask for reviews > copy the link into **googleReviewUrl** in business.js.
-4. **Live reviews on the site:** Google Cloud Console > new project > enable **Places API (New)** > create an API key and restrict it to Places API. Find AGC's Place ID with Google's Place ID Finder.
-5. Vercel > Settings > **Environment Variables** > add **GOOGLE_PLACES_API_KEY** and **GOOGLE_PLACE_ID** > Redeploy.
+4. **Place ID:** open the Google share link from business.js in a browser to see the listing, then look the business up in Google's Place ID Finder (developers.google.com/maps/documentation/places/web-service/place-id). Paste the ID (starts with ChIJ) into **googlePlaceId** in business.js. This switches the review button to a direct "Write a review" link.
+5. **Live reviews on the site:** Google Cloud Console > new project > enable **Places API (New)** > create an API key and restrict it to Places API.
+6. Vercel > Settings > **Environment Variables** > add **GOOGLE_PLACES_API_KEY** and **GOOGLE_PLACE_ID** > Redeploy.
 
 > **Note:** Google only returns up to 5 reviews (the ones it ranks most relevant). The site shows 4 and 5 star reviews with text, plus the true overall rating and count. It refreshes once a day.
 
@@ -237,6 +239,6 @@ Vercel redeploys automatically in about a minute. If Daysi sends an updated zip,
 - [ ] Domain connected, MX records untouched, HTTPS valid
 - [ ] Final test submitted from americanbuildnj.com
 - [ ] Sitemap submitted in Google Search Console
-- [ ] Told Daysi what is still missing: social links, service photos, bio, Google Business Profile items
+- [ ] Told Daysi what is still missing: Google Place ID, map embed link, Daniel's bio
 
 Questions about the code or changes: send them to Daysi and she will get an updated project file.

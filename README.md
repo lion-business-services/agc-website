@@ -53,6 +53,9 @@ Paste the full profile links into `social` in `src/config/business.js` (Facebook
 - After launch: add the site in **Google Search Console**, verify the domain, and submit `https://americanbuildnj.com/sitemap.xml`. Do the same in **Bing Webmaster Tools**.
 - The single biggest local-SEO factor is a verified, complete **Google Business Profile** (categories, service area, photos, hours) with the website link pointing here. That also powers the map pin and the reviews.
 
+## Estimate ticket numbers
+Every estimate request gets a ticket like **AGC-260921-K7M2** (AGC, date as YYMMDD, 4 random letters/numbers). It appears in the email subject in brackets, as the first row of the email, in the customer's automatic reply, on the thank-you page, and in the calendar event title. Search the info@ inbox for the ticket to pull up the case. Change the prefix in `src/lib/formsubmit.js` (`makeTicket`).
+
 ## Google reviews
 `api/reviews.js` is a small Vercel function that fetches AGC's Google rating and reviews and keeps the API key private. Until it is set up, the site shows "Customer reviews are on the way."
 1. Claim/verify the Google Business Profile for American General Contractor LLC.
@@ -86,8 +89,8 @@ Stock photos are fine for the service cards.
 - [ ] info@americanbuildnj.com mailbox live, then **activate FormSubmit** with a test submission
 - [ ] Service card photos + Daniel's bio (his photo is already in)
 - [ ] Google Business Profile + the two Google env vars (reviews)
-- [ ] Facebook / Instagram (and any other) links in `business.js`
-- [ ] Google Maps embed link + Google review link in `business.js`
+- [x] Facebook, Instagram and Google Business Profile links (done, in `business.js`)
+- [ ] Google **Place ID** → `googlePlaceId` in `business.js` AND `GOOGLE_PLACE_ID` in Vercel (turns on the direct review link + live reviews). Google Maps embed link → `mapEmbedUrl`.
 - [ ] Daniel signed in to the Workspace Google account on his phone (for the one-click appointment accept link)
 - [ ] Privacy policy reviewed by AGC
 - [ ] Submit `https://americanbuildnj.com/sitemap.xml` in Google Search Console

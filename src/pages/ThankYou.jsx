@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Check } from "lucide-react";
 import { business } from "../config/business";
 import { useSeo } from "../lib/seo";
@@ -6,11 +6,14 @@ import { PREVIEW } from "../lib/preview";
 
 export default function ThankYou() {
   useSeo({ title: "Thank You", path: "/thank-you" });
+  const [params] = useSearchParams();
   const sent = PREVIEW ? window.__agcLastSubmission : null;
+  const ticket = params.get("ref") || sent?.ticket || "";
   return (
     <section className="section"><div className="wrap"><div className="done" style={{ maxWidth: 640, marginInline: "auto" }}>
       <div className="ok"><Check className="icon" aria-hidden /></div>
       <h1 style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>Thank you. We received your project request.</h1>
+      {ticket && <div className="ticket"><small>Your estimate ticket number</small><b>{ticket}</b><span>Save this number. Mention it if you call or email us about your project.</span></div>}
       <p className="lede" style={{ margin: "18px auto 0" }}>A member of the American General Contractor team will review your information and contact you regarding the next step.</p>
       <p style={{ marginTop: 32 }}>Need to reach us sooner?</p>
       <a className="tel" href={business.phone.href}>{business.phone.display}</a>

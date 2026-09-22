@@ -542,3 +542,8 @@ button.btn{font-family:var(--body)}
 .page-hero.has-photo .btn-line{border-color:rgba(255,255,255,.5)}
 .page-hero.has-photo .cta-row{margin-top:28px}
 @media (prefers-reduced-motion:reduce){.page-hero-photo img{animation:none}}
+
+.ticket{display:grid;gap:6px;justify-items:center;margin:26px auto 0;max-width:440px;padding:20px 24px;border-radius:var(--r-lg);background:var(--soft);border:1px dashed #b8c2d2}
+.ticket small{font:700 .78rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+.ticket b{font:800 clamp(1.5rem,4vw,2.1rem)/1 var(--display);color:var(--red);letter-spacing:.04em}
+.ticket span{font-size:.9rem;text-align:center}

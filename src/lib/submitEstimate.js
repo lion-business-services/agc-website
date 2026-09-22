@@ -1,15 +1,18 @@
 import { business } from "../config/business";
-import { postToFormSubmit } from "./formsubmit";
+import { postToFormSubmit, makeTicket } from "./formsubmit";
 import { calendarLink } from "./calendarLink";
 
 export function submitEstimate(v, photos) {
   const wantsAppt = Boolean(v.appointmentDate || v.alternativeAppointment);
-  const link = calendarLink(v);
+  const ticket = makeTicket();
+  const link = calendarLink({ ...v, projectType: `${v.projectType} · ${ticket}` });
   return postToFormSubmit({
-    subject: `New estimate request${wantsAppt ? " + APPOINTMENT REQUEST" : ""}: ${v.projectType} — ${v.firstName} ${v.lastName} (${v.city})`,
+    ticket,
+    subject: `[${ticket}] Estimate request${wantsAppt ? " + APPOINTMENT" : ""}: ${v.projectType} — ${v.firstName} ${v.lastName} (${v.city})`,
     replyTo: v.email, honey: v.company_website,
-    autoresponse: `Thank you for contacting ${business.name}. We received your estimate request for ${v.projectType}.${wantsAppt ? " Your requested appointment time is NOT confirmed yet. We will review it and send you a calendar invitation or contact you to confirm." : " A member of our team will contact you about the next step."} Questions? Call ${business.phone.display}.`,
+    autoresponse: `Thank you for contacting ${business.name}. Your estimate ticket number is ${ticket}. Please keep it for your records and mention it if you call or email us. We received your request for ${v.projectType}.${wantsAppt ? " Your requested appointment time is NOT confirmed yet. We will review it and send you a calendar invitation or contact you to confirm." : " A member of our team will contact you about the next step."} Questions? Call ${business.phone.display}.`,
     rows: [
+      ["TICKET NUMBER", ticket],
       ["Customer", `${v.firstName} ${v.lastName}`], ["Phone", v.phone], ["email", v.email], ["Preferred contact", v.preferredContact],
       ["Project type", v.projectType], ["Project description", v.projectDescription], ["Measurements", v.measurements],
       ["Additional details", v.additionalDetails], ["Project address", `${v.address}, ${v.city}, ${v.state} ${v.zip}`],
