@@ -2,7 +2,7 @@
 
 > **Abdul: start with `ABDUL-GO-LIVE-GUIDE.md` (also included as a PDF). It walks through every step in order.**
 
-React + Vite. Hosted on Vercel. Estimate requests are emailed through FormSubmit. No database.
+React + Vite. Hosted on Vercel. Estimate requests are emailed through FormSubmit and saved as leads in the AGC Command Center. No database on the website itself.
 Built by VYNTEX, LLC.
 
 ## Run it on your computer
@@ -70,6 +70,20 @@ Setup (about 15 minutes, once):
 Change the wording, response time ("within 1–2 business days"), sender name or the Spanish summary in `src/config/business.js` → `confirmationEmail`, and the design in `api/_lib/confirmationEmail.js`.
 Abuse protection: the email only contains fixed wording plus validated fields (first name, project type from the list, city, contact method, date), checks the ticket format and the site origin, and limits sends per visitor and per address.
 
+## AGC Command Center connection (every request becomes a lead)
+Every estimate request is also sent to the AGC Command Center (`agc-cpm.netlify.app`), where it becomes a lead in **Leads › Open** with the **same ticket number** the email and the customer confirmation show. Everything on the form comes along: name, mobile, email, full address, project type, description, measurements, details, budget, timeline, preferred contact, consent, notes and the number of photos (the photos themselves stay in the FormSubmit email). A requested visit time is pinned on the lead and flagged for a same-day follow-up. If the same phone or email is already an open lead, the request is added to that lead instead of creating a duplicate.
+
+How it works: at the moment of submit, next to FormSubmit and `/api/confirm`, the site calls `/api/lead` (a Vercel function). That function forwards the request to the Command Center with a secret key that never reaches the browser. It never blocks the form: if the Command Center cannot be reached, the email through FormSubmit still arrives as always.
+
+Setup (once):
+1. In the Command Center folder run `npm run intake-key`. Copy the `INTAKE_SECRET` value into your password manager.
+2. Netlify (Command Center project) → Environment variables → add `INTAKE_SECRET` (Contains secret values) → Deploys → Trigger deploy.
+3. Vercel (this website) → Settings → Environment Variables → add `INTAKE_SECRET` with the **same value** → Redeploy.
+4. Optional: `COMMAND_CENTER_URL` if the Command Center moves to its own domain (default `https://agc-cpm.netlify.app`).
+5. Send one test request from the live site: it appears in the Command Center within seconds.
+
+Until `INTAKE_SECRET` is set in Vercel, `/api/lead` quietly does nothing and the site works exactly as before.
+
 ## Estimate ticket numbers
 Every estimate request gets a ticket like **AGC-260921-K7M2** (AGC, date as YYMMDD, 4 random letters/numbers). It appears in the email subject in brackets, as the first row of the email, in the customer's automatic reply, on the thank-you page, and in the calendar event title. Search the info@ inbox for the ticket to pull up the case. Change the prefix in `src/lib/formsubmit.js` (`makeTicket`).
 
@@ -111,6 +125,7 @@ Stock photos are fine for the service cards.
 - [ ] Daniel signed in to the Workspace Google account on his phone (for the one-click appointment accept link)
 - [ ] Privacy policy reviewed by AGC
 - [ ] Submit `https://americanbuildnj.com/sitemap.xml` in Google Search Console
+- [ ] `INTAKE_SECRET` in Vercel and in the Command Center (Netlify), same value, then one test request
 - [ ] Optional: Google Tag Manager snippet in `index.html` (events are already wired in `src/lib/analytics.js`)
 
 ## Shareable one-file demo

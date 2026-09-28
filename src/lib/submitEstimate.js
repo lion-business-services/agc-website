@@ -2,6 +2,7 @@ import { business } from "../config/business";
 import { postToFormSubmit, makeTicket } from "./formsubmit";
 import { calendarLink } from "./calendarLink";
 import { sendConfirmation } from "./confirm";
+import { sendToCommandCenter } from "./commandCenter";
 
 export function submitEstimate(v, photos) {
   const wantsAppt = Boolean(v.appointmentDate || v.alternativeAppointment);
@@ -26,5 +27,6 @@ export function submitEstimate(v, photos) {
     photos: photos.map(({ file, kind }, n) => ({ file, label: `${kind === "current" ? "Current photo" : "Inspiration photo"} ${n + 1}` })),
   });
   const toCustomer = sendConfirmation(v, ticket);
-  return Promise.all([toBusiness, toCustomer]).then(([payload, emailed]) => ({ ...payload, ticket, emailed }));
+  const toCommandCenter = sendToCommandCenter(v, ticket, photos.length); // creates the lead in the AGC Command Center
+  return Promise.all([toBusiness, toCustomer, toCommandCenter]).then(([payload, emailed, inCommandCenter]) => ({ ...payload, ticket, emailed, inCommandCenter }));
 }
