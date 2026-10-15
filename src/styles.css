@@ -177,6 +177,17 @@ footer{background:var(--navy-deep);color:#a9b8cf;margin-top:0}
 .creds li:first-child{color:#fff;font-weight:600}
 .subfoot{border-top:1px solid rgba(255,255,255,.08);font-size:.8rem;color:#7f90aa}
 .subfoot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 0}
+/* Site credit (VYNTEX USA) */
+.vx-wrap{padding-bottom:22px}
+.vx-credit{display:inline-flex;align-items:center;gap:10px;max-width:100%;padding:6px 14px 6px 6px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.03);font-size:.72rem;line-height:1.4;color:#7f90aa;transition:border-color .2s}
+.vx-credit:hover{border-color:rgba(0,221,255,.4)}
+.vx-badge{display:grid;place-items:center;flex:none;width:20px;height:20px;border-radius:6px;background:#000;border:1px solid rgba(0,221,255,.5);box-shadow:0 0 6px rgba(0,221,255,.35);font:800 .66rem/1 var(--body)}
+.vx-badge span{background:linear-gradient(#fff,#a3a6ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vx-text{min-width:0}
+.vx-text strong{color:#fff;font-weight:700;letter-spacing:.03em}
+.vx-link{flex:none;color:#00ddff;transition:transform .2s}
+.vx-credit:hover .vx-link{transform:translateX(2px)}
+@media (max-width:560px){.vx-credit{display:flex;border-radius:14px}}
 
 /* ===== Estimate dialog ===== */
 dialog.est{border:0;padding:0;width:min(760px,100%);max-width:100%;max-height:min(92dvh,900px);border-radius:var(--r-lg);box-shadow:0 40px 100px -20px rgba(6,21,39,.6);color:var(--text);background:#fff;margin:auto;overflow:hidden}

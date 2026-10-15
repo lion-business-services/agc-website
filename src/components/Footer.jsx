@@ -19,8 +19,14 @@ export default function Footer() {
       </div>
       <div className="subfoot"><div className="wrap">
         <span>© {new Date().getFullYear()} {business.name}. All rights reserved. <Link to="/privacy" style={{ textDecoration: "underline" }}>Privacy</Link></span>
-        <span>Built by {business.developer.name} · {business.developer.location} · <a href={business.developer.phoneHref}>{business.developer.phone}</a> · <a href={`mailto:${business.developer.email}`}>{business.developer.email}</a></span>
       </div></div>
+      <div className="wrap vx-wrap">
+        <a className="vx-credit" href="https://vyntexusa.com/?utm_source=americanbuildnj&utm_medium=footer_credit" target="_blank" rel="noopener">
+          <span className="vx-badge" aria-hidden="true"><span>V</span></span>
+          <span className="vx-text">Website, CRM &amp; AI automation by <strong>VYNTEX USA</strong></span>
+          <span className="vx-link">vyntexusa.com →</span>
+        </a>
+      </div>
     </footer>
   );
 }
